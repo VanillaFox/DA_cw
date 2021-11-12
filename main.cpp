@@ -4,7 +4,7 @@
 #include"funcs.h"
 
 int main(int argc, char *argv[]){
-    if(argc!=3){
+    if(argc<2){
         std::cout << "Usage: ./curswork filename mode\n";
         exit(-1);
     }
@@ -14,13 +14,22 @@ int main(int argc, char *argv[]){
         exit(-1);
     }
     std::string filename = argv[1];
-    std::ifstream input(filename+".txt");
+    std::ifstream input(filename);
     if(!input.is_open()){
         std::cout << "File opening problem\n";
         exit(-1);
     }
-    std::ofstream output(filename+"_modified.txt");
-    Start(input, output, mode);
+
+    if(argc==4){
+        std::string s(argv[3]);
+        if(s=="-p")
+            Start(input, mode);
+        // std::cout << (argv[3].c_str()=="-p" ? "true\n" : "false\n");
+    }
+    else{
+        std::ofstream output("modified_"+filename);
+        Start(input, output, mode);
+        output.close();
+    }
     input.close();
-    output.close();
 }
