@@ -22,9 +22,9 @@ int main(int argc, char *argv[]){
 
     if(argc==4){
         std::string s(argv[3]);
-        if(s=="-p")
+        if(s=="-p"){
             Start(input, mode);
-        // std::cout << (argv[3].c_str()=="-p" ? "true\n" : "false\n");
+        }
     }
     else{
         std::ofstream output("modified_"+filename);
