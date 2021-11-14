@@ -172,6 +172,7 @@ std::vector<std::string> Decompress(std::ifstream& input, int mode){
     while(!input.eof()){
         getline(input, str);
         getline(input, numstr);
+
         if(mode==1){
             std::stringstream iss(str);
             std::vector<int> curvec;
@@ -209,6 +210,10 @@ void Start(std::ifstream& input, std::ofstream& output, int mode){
     }
     else if(str=="decompress"){
         getline(input, str);
+        if(str!="BWT+RLE" || str!="BWT+MTF"){
+            std::cout << "Incorrect file format\n";
+            exit(-1);
+        }
         if(mode==1 && str=="BWT+RLE" || mode==2 && str=="BWT+MTF"){
             std::cout << "This file must be decompressed by algorithm " + str + "\n";
             exit(-1);
