@@ -4,8 +4,42 @@
 #include<vector>
 #include"funcs.h"
 
+void Input(){
+    std::string str;
+    bool newline = false;
+    std::ofstream test("input.txt");
+    std::cin >> str;
+    test << str;
+    if(str=="compress"){
+        while(std::cin >> str){
+            test << "\n" << str;
+        }
+    }
+    else if(str=="decompress"){
+        newline = true;
+        while(std::cin >> str){
+            if(str=="code" || str=="num"){
+                newline = true;
+                continue;
+            }
+            if(newline){
+                test << "\n";
+                test << str;
+                newline = false;
+                continue;
+            }
+            test << " " << str;
+        }
+    }
+    else{
+        std::cout << "Unknown command for text conversion: \'" << str << "\'\n";
+    }
+    test.close();
+}
+
+
 int main(int argc, char *argv[]){
-    if(argc<3){
+    if(argc!=3){
         std::cout << "Usage: ./curswork mode filename/-c\n";
         exit(-1);
     }
@@ -16,28 +50,9 @@ int main(int argc, char *argv[]){
     }
    
     std::string str(argv[2]);
-    bool newline = false;
     if(str[0]=='-'){
         if(str=="-p"){
-            std::ofstream test("input.txt");
-            while(std::cin >> str){
-                if(str=="word" || str=="num"){
-                    newline = true;
-                    continue;
-                }
-                if(str=="compress" || str=="decompress"){
-                    test << str;
-                    newline = true;
-                    continue;
-                }
-                if(newline){
-                    test << "\n";
-                    newline = false;
-                }
-                test << str << " ";
-            }
-            
-            test.close();
+            Input();            
             std::ifstream input("input.txt");
             Start(input, mode);
             input.close();

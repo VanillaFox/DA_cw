@@ -11,7 +11,6 @@ std::vector<char> alphabet;
 std::pair<std::string, long long> EncodeBWT(std::string text){
     std::vector<std::string> strs;
     long long textsize = text.size();
-    //получение матрицы
     for(long long i = 0; i < textsize; i++){
         text.append(text, 0, 1);
         text.erase(text.begin());
@@ -36,7 +35,6 @@ std::string DecodeBWT(std::pair<std::string, long long> pair){
     long long textsize = text.size();
     std::map<long long, std::pair<char, long long>> decodearr;
     std::sort(text.begin(), text.end());
-    //получение исходной матрицы
     for(long long i = 0; i < textsize; i++){
         char a = pair.first[i];
         for(long long j = 0; j < textsize; j++){
@@ -47,7 +45,6 @@ std::string DecodeBWT(std::pair<std::string, long long> pair){
             }
         }
     }
-    //восстановление слова
     long long cur = pair.second;
     for(long long i = 0; i < textsize; i++){
         text[i] = decodearr[cur].first;
@@ -172,7 +169,6 @@ std::vector<std::string> Decompress(std::ifstream& input, int mode){
     while(!input.eof()){
         getline(input, str);
         getline(input, numstr);
-
         if(mode==1){
             std::stringstream iss(str);
             std::vector<int> curvec;
@@ -210,7 +206,7 @@ void Start(std::ifstream& input, std::ofstream& output, int mode){
     }
     else if(str=="decompress"){
         getline(input, str);
-        if(str!="BWT+RLE" || str!="BWT+MTF"){
+        if(str!="BWT+RLE" && str!="BWT+MTF"){
             std::cout << "Incorrect file format\n";
             exit(-1);
         }
@@ -234,6 +230,7 @@ void Start(std::ifstream& input, int mode){
     std::string str;
     getline(input, str);
     int num;
+
     if(str=="compress"){
         std::vector<std::pair<std::string, long long>> res = Compress(input, mode);
         for(auto vec: res){
@@ -253,6 +250,6 @@ void Start(std::ifstream& input, int mode){
         }
     }
     else{
-        std::cout << "Incorrect file content\n";
+        std::cout << "Incorrect input content\n";
     }
 }

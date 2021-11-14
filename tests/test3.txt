@@ -1,0 +1,6 @@
+decompress
+BWT+RLE
+rdakra4b2
+2
+da4sb
+3
